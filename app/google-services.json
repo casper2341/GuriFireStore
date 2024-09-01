@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "35026323923",
+    "project_id": "gurifirestore",
+    "storage_bucket": "gurifirestore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35026323923:android:d3a218c7339b0b3ee0c726",
+        "android_client_info": {
+          "package_name": "com.guri.gurifirestore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl6bMrVK25Iu-kgqQtN6U1mHZVonXY-hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
