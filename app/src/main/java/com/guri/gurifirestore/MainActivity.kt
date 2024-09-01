@@ -5,12 +5,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
+import com.guri.gurifirestore.model.Note
 import com.guri.gurifirestore.ui.theme.GuriFireStoreTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,28 +26,39 @@ class MainActivity : ComponentActivity() {
         setContent {
             GuriFireStoreTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
+                    FirebaseApp.initializeApp(this)
+                    val firestore = FirebaseFirestore.getInstance()
+                    val notesCollection = firestore.collection("note")
+
+                    val notes = remember { mutableStateListOf<Note>() }
+
+                    SideEffect {
+                        notesCollection.get()
+                            .addOnSuccessListener { result ->
+                                for (document in result) {
+                                    val note = document.toObject(Note::class.java)
+                                    notes.add(note)
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                // Handle error
+                            }
+                    }
+
+                    NoteList(notes = notes)
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GuriFireStoreTheme {
-        Greeting("Android")
+    @Composable
+    fun NoteList(notes: List<Note>) {
+        LazyColumn {
+            items(notes) { note ->
+                Text(text = note.title)
+                Text(text = note.content)
+            }
+        }
     }
 }
