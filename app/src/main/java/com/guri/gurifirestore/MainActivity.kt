@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.FirebaseApp
 import com.guri.gurifirestore.model.Note
 import com.guri.gurifirestore.ui.theme.GuriFireStoreTheme
 
@@ -27,7 +26,6 @@ class MainActivity : ComponentActivity() {
             GuriFireStoreTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val viewModel : NoteViewModel = ViewModelProvider(this)[NoteViewModel::class.java]
-                    FirebaseApp.initializeApp(this)
 
                     val notes = viewModel.state.notes
                     val isLoading = viewModel.state.isLoading
