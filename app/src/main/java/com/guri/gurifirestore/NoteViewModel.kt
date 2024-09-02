@@ -32,4 +32,13 @@ class NoteViewModel : ViewModel() {
                 }
         }
     }
+
+    fun addNote(note: Note) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val firestore = FirebaseFirestore.getInstance()
+            val notesCollection = firestore.collection("note")
+
+            notesCollection.add(note)
+        }
+    }
 }
