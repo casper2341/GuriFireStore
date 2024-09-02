@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
@@ -46,15 +47,15 @@ class MainActivity : ComponentActivity() {
                             }
                     }
 
-                    NoteList(notes = notes)
+                    NoteList(modifier = Modifier.padding(innerPadding), notes = notes)
                 }
             }
         }
     }
 
     @Composable
-    fun NoteList(notes: List<Note>) {
-        LazyColumn {
+    fun NoteList(modifier : Modifier, notes: List<Note>) {
+        LazyColumn(modifier = modifier) {
             items(notes) { note ->
                 Text(text = note.title)
                 Text(text = note.content)
