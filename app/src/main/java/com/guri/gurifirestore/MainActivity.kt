@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
                         ProgressIndicator()
                     } else {
                         Column {
-                            NoteInput(state = state)
+                            NoteInput(state = state, onClick = { viewModel.addNote(Note(id = "feqgwewbWbfedasn", title = "gurdeep button", content = "gurdeep from add button "))})
 
                             NoteList(
                                 modifier = Modifier.padding(innerPadding),
@@ -56,7 +57,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun NoteInput(state: UiState) {
+private fun NoteInput(state: UiState, onClick: () -> Unit) {
     OutlinedTextField(
         value = state.title,
         onValueChange = { newName ->
@@ -77,7 +78,7 @@ private fun NoteInput(state: UiState) {
         modifier = Modifier.fillMaxWidth(),
     )
     Spacer(modifier = Modifier.height(4.dp))
-
+    AddButton(onClick = onClick)
 }
 
 @Composable
@@ -94,5 +95,14 @@ fun NoteList(modifier: Modifier, notes: List<Note>) {
             Text(text = note.title)
             Text(text = note.content)
         }
+    }
+}
+
+@Composable
+fun AddButton(onClick: () -> Unit) {
+    Button(onClick = {
+        onClick.invoke()
+    }) {
+        Text("Add")
     }
 }
